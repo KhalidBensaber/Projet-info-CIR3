@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team History</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Team History</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Matches Played</h2>
+            <ul>
+                {% for match in matches %}
+                <li>
+                    {{ match.equipe1 }} vs {{ match.equipe2 }} on {{ match.date }} - Score: {{ match.score1 }} - {{ match.score2 }} - Status: {{ match.status }} - Result: {{ match.result }}
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h2>Overall Tournament Wins</h2>
+            <p>Total Wins: {{ overall_wins }}</p>
+        </section>
+        <section>
+            <h2>Tournaments</h2>
+            <ul>
+                {% for tournament in tournaments %}
+                <li>
+                    <h3>{{ tournament.event.nom }} ({{ tournament.event.date_debut }} - {{ tournament.event.date_fin }})</h3>
+                    <p>Result: {{ tournament.result }}</p>
+                    <ul>
+                        {% for match in tournament.matches %}
+                        <li>
+                            {{ match.equipe1 }} vs {{ match.equipe2 }} on {{ match.date }} - Score: {{ match.score1 }} - {{ match.score2 }} - Status: {{ match.status }} - Result: {{ match.result }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.conf import settings
+import os
 
-# Create your views here.
-from django.shortcuts import render
-
-def index(request):
-    return render(request, 'index.html')
+def react_view(request):
+    filepath = os.path.join(settings.BASE_DIR, 'static/react/dist/index.html')
+    with open(filepath, 'r') as file:
+        return HttpResponse(file.read(), content_type='text/html')

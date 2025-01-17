@@ -2,8 +2,8 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://theomeilliez:Gv1ZmorY2lczag99@projetcir3full.apni4.mongodb.net/?retryWrites=true&w=majority&appName=projetCIR3full')
 db = client["projetcir3"]
 # utilisateur
-def Add_utilisateur(nom,prenom,pseudo,mot_de_pass,email,statut,qrcode,winstreak=0,win=0,lose=0): #qrcode
-    return db.utilisateur.insert_one({"nom": nom,"prenom" : prenom , "pseudo": pseudo, "mdp": mot_de_pass, "email": email, "statut" : statut, "winstreak": winstreak, "win" : win , "lose" : lose , "qrcode" : qrcode})  
+def Add_utilisateur(nom,prenom,pseudo,mot_de_pass,email,status,winstreak=0,win=0,lose=0): #qrcode
+    return db.utilisateur.insert_one({"nom": nom,"prenom" : prenom , "pseudo": pseudo, "mdp": mot_de_pass, "email": email, "status" : status, "winstreak": winstreak, "win" : win , "lose" : lose })  
 
 def Sup_utilisateur(id):
     return db.utilisateur.delete_one({"_id" : id})
@@ -32,9 +32,9 @@ def Get_Utilisateur_email(id):
 def Get_Utilisateur_cb(id): 
     cb =db.utilisateur.find_one({"_id" : id} , {"cb" : 1 , "_id" : 0 })
     return cb["cb"] if cb else None
-def Get_Utilisateur_statut(id): 
-    statut = db.utilisateur.find_one({"_id": id}, {"statut": 1, "_id": 0})
-    return statut["statut"] if statut else None
+def Get_Utilisateur_status(id): 
+    status = db.utilisateur.find_one({"_id": id}, {"status": 1, "_id": 0})
+    return status["status"] if status else None
 def Get_Utilisateur_winstreak(id): 
     winstreak = db.utilisateur.find_one({"_id" : id} , {"winstreak" : 1 , "_id" : 0 })
     return winstreak["winstreak"] if winstreak else None
@@ -44,13 +44,10 @@ def Get_Utilisateur_win(id):
 def Get_Utilisateur_email(id):
     lose = db.utilisateur.find_one({"_id" : id} , {"lose" : 1 , "_id" : 0 })
     return lose["lose"] if lose else None
-def Get_Utilisateur_qrcode(id): 
-    qrcode =db.utilisateur.find_one({"_id" : id} , {"qrcode" : 1 , "_id" : 0 })
-    return qrcode["qrcode"] if qrcode else None
 # Setteur de la tabble utilisateur
 
-def Set_Utilisateur(nom,prenom,pseudo,mot_de_pass,email,statut,winstreak,win,lose,qrcode):
-    result = db.utilisateur.update_one({"_id" : id} ,{"$set" : {"nom": nom,"prenom" : prenom , "pseudo": pseudo, "mdp": mot_de_pass, "email": email, "statut" : statut, "winstreak": winstreak, "win" : win , "lose" : lose,"qrcode" : qrcode} })
+def Set_Utilisateur(nom,prenom,pseudo,mot_de_pass,email,status,winstreak,win,lose,qrcode):
+    result = db.utilisateur.update_one({"_id" : id} ,{"$set" : {"nom": nom,"prenom" : prenom , "pseudo": pseudo, "mdp": mot_de_pass, "email": email, "status" : status, "winstreak": winstreak, "win" : win , "lose" : lose,"qrcode" : qrcode} })
     return result.modified_count > 0
 def Set_Utilisateur_nom(id,nom): 
     result = db.utilisateur.update_one({"_id" : id} ,{"$set" :  {"nom" : nom} })
@@ -70,8 +67,8 @@ def Set_Utilisateur_email(id,email):
 def Set_Utilisateur_cb(id,Cb): 
     result = db.utilisateur.update_one({"_id" : id}, {"$set" :  {"cb" : Cb} })
     return result.modified_count > 0
-def Set_Utilisateur_statut(id,statut): 
-    result = db.utilisateur.update_one({"_id" : id} ,{"$set" : {"statut" : statut} })
+def Set_Utilisateur_status(id,status): 
+    result = db.utilisateur.update_one({"_id" : id} ,{"$set" : {"status" : status} })
     return result.modified_count > 0
 def Set_Utilisateur_winstreak(id,winstreak): 
     result = db.utilisateur.update_one({"_id" : id} ,{"$set" : {"winstreak" : winstreak} })
@@ -82,16 +79,13 @@ def Set_Utilisateur_win(id,win):
 def Set_Utilisateur_lose(id,lose): 
     result = db.utilisateur.update_one({"_id" : id} ,{"$set" :  {"lose" : lose} })
     return result.modified_count > 0
-def Set_Utilisateur_qrcode(id,qrcode): 
-    result = db.utilisateur.update_one({"_id" : id} ,{"$set" :  {"qrcode" : qrcode} })
-    return result.modified_count > 0
 
 
 
 
 # equipe
-def Add_Equipe(nom,tab_joueur,manageur,jeux):
-    return db.equipe.insert_one({"nom": nom, "tab_joueur" : tab_joueur, "manageur" : manageur, "jeux" : jeux})
+def Add_Equipe(nom,tab_joueur,password=""):
+    return db.equipe.insert_one({"nom": nom, "tab_joueur" : tab_joueur, "password" : password})
 
 def Sup_Equipe(id):
     return db.equipe.delete_one({"_id" : id})
@@ -105,16 +99,13 @@ def Get_Equipe_nom(id):
 def Get_Equipe_tab_joueur(id): 
     tab_joueur =db.equipe.find_one({"_id" : id} , {"tab_joueur" : 1 , "_id" : 0 })
     return list(tab_joueur["tab_joueur"]) if tab_joueur else None
-def Get_Equipe_manageur(id): 
-    manageur =db.equipe.find_one({"_id" : id} , {"manageur" : 1 , "_id" : 0 })
-    return manageur["manageur"] if manageur else None
-def Get_Equipe_jeux(id): 
-    jeux =db.equipe.find_one({"_id" : id} , {"jeux" : 1 , "_id" : 0 })
-    return jeux["jeux"] if jeux else None
+def Get_Equipe_password(id):
+    password = db.equipe.find_one({"_id" : id} , {"password" : 1 , "_id" : 0 })
+    return password["password"] if password else None
 
 #setteur de equipe
-def Set_Equipe(nom,tab_joueur,manageur,jeux):
-    result = db.equipe.update_one({"_id" : id} ,{"$set" : {"nom": nom, "tab_joueur" : tab_joueur, "manageur" : manageur, "jeux" : jeux}})
+def Set_Equipe(nom,tab_joueur,password):
+    result = db.equipe.update_one({"_id" : id} ,{"$set" : {"nom": nom, "tab_joueur" : tab_joueur, "password" : password}})
     return result.modified_count > 0
 def Set_Equipe_nom(id,nom): 
     result = db.equipe.update_one({"_id" : id} ,{"$set" :  {"nom" : nom} })
@@ -122,16 +113,13 @@ def Set_Equipe_nom(id,nom):
 def Set_Equipe_tab_joueur(id,tab_joueurs): 
     result = db.equipe.update_one({"_id" : id} ,{"$set" :  {"tab_joueur" : tab_joueurs} })
     return result.modified_count > 0
-def Set_Equipe_manageur(id,manageur): 
-    result = db.equipe.update_one({"_id" : id} ,{"$set" :  {"manageur" : manageur} })
-    return result.modified_count > 0
-def Set_Equipe_jeux(id,jeux): 
-    result = db.equipe.update_one({"_id" : id} ,{"$set" :  {"jeux" : jeux} })
+def Set_Equipe_password(id,password):
+    result = db.equipe.update_one({"_id" : id} ,{"$set" :  {"password" : password} })
     return result.modified_count > 0
 
 #table event ( tournoi)
-def Add_Event(nom,date_debut,date_fin,place_max,place_libre,cash_price,statut,prix,tab_inscrit):
-    return db.event.insert_one({"nom" : nom , "date_deput": date_debut, "date_fin" : date_fin, "place_max" : place_max, "place_libre" : place_libre, "cash_price" : cash_price, "statut" : statut,"prix":prix, "inscrit":tab_inscrit })
+def Add_Event(nom,date_debut,date_fin,place_max,place_libre,cash_price,status,prix,tab_inscrit=[]):
+    return db.event.insert_one({"nom" : nom , "date_debut": date_debut, "date_fin" : date_fin, "place_max" : place_max, "place_libre" : place_libre, "cash_price" : cash_price, "status" : status,"prix":prix, "inscrit":tab_inscrit })
 
 def Sup_Event(id):
     return db.event.delete_one({"_id" : id})
@@ -158,9 +146,9 @@ def Get_Event_place_libre(id):
 def Get_Event_cash_price(id):
     cash_price = db.event.find_one({"_id" : id} , {"cash_prices" : 1 , "_id" : 0 })
     return cash_price["cash_prices"] if cash_price else None
-def Get_Event_statut(id):
-    statut =db.event.find_one({"_id" : id} , {"statut" : 1 , "_id" : 0 })
-    return statut["statut"] if statut else None
+def Get_Event_status(id):
+    status =db.event.find_one({"_id" : id} , {"status" : 1 , "_id" : 0 })
+    return status["status"] if status else None
 def Get_Event_prix(id):
     prix =db.event.find_one({"_id" : id} , {"prix" : 1 , "_id" : 0 })
     return prix["prix"] if prix else None
@@ -169,8 +157,8 @@ def Get_Event_inscrit(id):
     return inscrit["inscrit"] if inscrit else None
 
 #setteur event
-def Set_Event(nom,date_debut,date_fin,place_max,place_libre,cash_price,statut,prix,tab_inscrit): 
-    result = db.event.update_One({"_id" : id} ,{"$set" :   {"nom" : nom , "date_deput": date_debut, "date_fin" : date_fin, "place_max" : place_max, "place_libre" : place_libre, "cash_price" : cash_price, "statut" : statut,"prix":prix, "inscrit":tab_inscrit}})
+def Set_Event(nom,date_debut,date_fin,place_max,place_libre,cash_price,status,prix,tab_inscrit): 
+    result = db.event.update_one({"nom" : nom} ,{"$set" :  {"date_debut": date_debut, "date_fin" : date_fin, "place_max" : place_max, "place_libre" : place_libre, "cash_price" : cash_price, "status" : status,"prix":prix, "inscrit":tab_inscrit }})
     return result.modified_count > 0
 def Set_Event_nom(id,nom): 
     result = db.event.update_one({"_id" : id} ,{"$set" :  {"nom" : nom} })
@@ -187,11 +175,11 @@ def Set_Event_place_max(id,place_max):
 def Set_Event_places_min(id,place_libre): 
     result = db.event.update_one({"_id" : id} ,{"$set" :  {"place_libre": place_libre} })
     return result.modified_count > 0
-def Set_Event_cash_price(id,cash_price): 
-    result = db.event.update_one({"_id" : id}, {"$set" :  {"cash_price" : cash_price} })
+def Set_Event_cash_price(name,cash_price): 
+    result = db.event.update_one({"nom" : name}, {"$set" :  {"cash_price" : cash_price} })
     return result.modified_count > 0
-def Set_Event_statut(id,statut): 
-    result = db.event.update_one({"_id" : id}, {"$set" :  {"statut" : statut} })
+def Set_Event_status(id,status): 
+    result = db.event.update_one({"_id" : id}, {"$set" :  {"status" : status} })
     return result.modified_count > 0
 def Set_Event_prix(id,prix): 
     result = db.event.update_one({"_id" : id}, {"$set" :  {"prix" : prix} })
@@ -238,8 +226,8 @@ def Get_Match_event(id):
     return event["_event"] if event else None
 
 #setteur match
-def Set_Match(id,equipe1,equipe2,date,score1,score2,wineur, arbitre, _event ):
-    result = db.match.update_one({"_id" : id} ,{"$set" :  {"equipe1" : equipe1, "equipe2" : equipe2, "date" : date, "score1" : score1, "score2" : score2, "wineur" : wineur, "arbitre" : arbitre ,"_event": _event} })
+def Set_Match(equipe1,equipe2,date,score1,score2,wineur, arbitre, _event ):
+    result = db.match.update_one({"equipe1" : equipe1, "equipe2" : equipe2, "_event" : _event} ,{"$set" :  {"equipe1" : equipe1, "equipe2" : equipe2, "date" : date, "score1" : score1, "score2" : score2, "wineur" : wineur, "arbitre" : arbitre ,"_event": _event} })
     return result.modified_count > 0
 def Set_Match_equipe1(id,equipe): 
     result = db.match.update_one({"_id" : id} ,{"$set" :  {"equipe1" : equipe} })

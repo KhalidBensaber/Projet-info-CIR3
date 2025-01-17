@@ -10,6 +10,7 @@
         {% if user.is_authenticated %}
         <h2>Switch account</h2>
         <p>You are already logged in as <strong>{{ user.username }}</strong>.</p>
+        <p><a href="/home">Return to Home</a></p>
         {% else %}
         <h2>Login</h2>
         {% endif %}
@@ -24,7 +25,7 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="submit">LoginING</button>
         </form>
     </div>
     {% if messages %}

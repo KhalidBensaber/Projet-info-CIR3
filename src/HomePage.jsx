@@ -1,8 +1,39 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import { Button, AppBar, Toolbar, Typography, Card, CardContent, Grid, Container } from '@mui/material';
+import { getCSRFToken } from "@/utils/csrf";
+
 
 function HomePage() {
+    const navigate = useNavigate(); // Utilisé pour la redirection après la déconnexion
+
+    const handleLogout = async () => {
+        const csrfToken = getCSRFToken();
+
+        if (!csrfToken) {
+            console.error("CSRF Token non trouvé !");
+            return;
+        }
+
+        try {
+            const response = await fetch("/logout/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken, // Ajout du CSRF Token
+                },
+            });
+
+            if (response.ok) {
+                console.log("Déconnexion réussie");
+                navigate("/login-account"); // Redirection vers la page de connexion
+            } else {
+                console.error("Erreur lors de la déconnexion :", response.status);
+            }
+        } catch (error) {
+            console.error("Erreur réseau :", error);
+        }
+    };
 
     const tournaments = [
         {id: 1, name: "FIFA", date: "14 janvier 2025", prize: "1000€"},
@@ -26,7 +57,7 @@ function HomePage() {
                         <Link to="/profile" style={{ textDecoration: 'none', marginRight: '10px' }}>
                             <Button variant="outlined" style={{ color: "#fff", borderColor: "#ff0000" }}>Profile</Button>
                         </Link>
-                        <Button variant="text" style={{ color: "#fff" }}>Se déconnecter</Button>
+                        <Button variant="text" style={{ color: "#fff" }} onClick={handleLogout}>Se déconnecter</Button>
                     </div>
                 </Toolbar>
             </AppBar>

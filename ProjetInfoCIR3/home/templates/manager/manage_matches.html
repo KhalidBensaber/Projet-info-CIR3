@@ -12,6 +12,9 @@
     </header>
     <main>
         <section>
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
             <h2>Create a New Match</h2>
             <form method="post">
                 {% csrf_token %}
@@ -28,13 +31,7 @@
                     {% endfor %}
                 </select><br>
                 <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required><br>
-                <label for="score1">Score 1:</label>
-                <input type="number" id="score1" name="score1"><br>
-                <label for="score2">Score 2:</label>
-                <input type="number" id="score2" name="score2"><br>
-                <label for="winner">Winner: (leave blank if match didn't occur)</label>
-                <input type="text" id="winner" name="winner"><br>
+                <input type="datetime-local" id="date" name="date" required><br>
                 <label for="referee">Referee:</label>
                 <select id="referee" name="referee" required>
                     {% for referee in referees %}
@@ -55,38 +52,49 @@
             <ul>
                 {% for match in matches %}
                 <li>
-                    {{ match.equipe1 }} vs {{ match.equipe2 }} on {{ match.date }} - Score: {{ match.score1 }} - {{ match.score2 }} - Winner: {{ match.winner }} - Referee: {{ match.referee }} - Event: {{ match.event }}
+                    {{ match.equipe1 }} vs {{ match.equipe2 }} on {{ match.date }} - Referee: {{ match.referee }} - Event: {{ match.event }}
+                    {% if match.event_status == 'completed' %}
+                    - Score: {{ match.score1 }} - {{ match.score2 }} - Winner: {{ match.winner }}
+                    {% endif %}
                     <form method="post" style="display:inline;">
                         {% csrf_token %}
                         <input type="hidden" name="match_id" value="{{ match.inserted_id }}">
-                        <label for="equipe1">Equipe 1:</label>
-                        <select id="equipe1" name="equipe1" required>
+                        <label for="equipe1_dis">Equipe 1:</label>
+                        <input hidden type="text" id="equipe1" name="equipe1" value="{{ match.equipe1 }}" >
+                        <select id="equipe1_dis" name="equipe1_dis" disabled>
                             {% for squad in squads %}
                             <option value="{{ squad.nom }}" {% if squad.nom == match.equipe1 %}selected{% endif %}>{{ squad.nom }}</option>
                             {% endfor %}
                         </select>
-                        <label for="equipe2">Equipe 2:</label>
-                        <select id="equipe2" name="equipe2" required>
+                        <label for="equipe2_dis">Equipe 2:</label>
+                        <input hidden type="text" id="equipe2" name="equipe2" value="{{ match.equipe2 }}">
+                        <select id="equipe2_dis" name="equipe2_dis" disabled>
                             {% for squad in squads %}
                             <option value="{{ squad.nom }}" {% if squad.nom == match.equipe2 %}selected{% endif %}>{{ squad.nom }}</option>
                             {% endfor %}
                         </select>
                         <label for="date">Date:</label>
-                        <input type="date" id="date" name="date" value="{{ match.date }}" required>
+                        <input type="datetime-local" id="date" name="date" value="{{ match.date }}" required>
                         <label for="score1">Score 1:</label>
-                        <input type="number" id="score1" name="score1" value="{{ match.score1 }}" required>
+                        <input type="number" min="0" id="score1" name="score1" value="{{ match.score1 }}" required>
                         <label for="score2">Score 2:</label>
-                        <input type="number" id="score2" name="score2" value="{{ match.score2 }}" required>
+                        <input type="number" min="0" id="score2" name="score2" value="{{ match.score2 }}" required>
                         <label for="winner">Winner:</label>
-                        <input type="text" id="winner" name="winner" value="{{ match.winner }}" required>
+                        <select id="winner" name="winner" required>
+                            <option value="" disabled selected>Select a winner</option> 
+                            <option value="{{ match.equipe1 }}" {% if match.equipe1 == match.winner %}selected{% endif %}>{{ match.equipe1 }}</option>
+                            <option value="{{ match.equipe2 }}" {% if match.equipe2 == match.winner %}selected{% endif %}>{{ match.equipe2 }}</option>
+                        </select>
                         <label for="referee">Referee:</label>
                         <select id="referee" name="referee" required>
                             {% for referee in referees %}
                             <option value="{{ referee.pseudo }}" {% if referee.pseudo == match.referee %}selected{% endif %}>{{ referee.pseudo }}</option>
                             {% endfor %}
                         </select>
-                        <label for="event">Event:</label>
-                        <select id="event" name="event" required>
+                        <label for="event_dis">Event:</label>
+                        <!--input hidden type="text" id="event" name="event" value="{{ match.event }}"-->
+                        <select id="event" name="event">
+                            <option value="Select an event" disabled>Select an event</option>
                             {% for event in events %}
                             <option value="{{ event.nom }}" {% if event.nom == match.event %}selected{% endif %}>{{ event.nom }}</option>
                             {% endfor %}

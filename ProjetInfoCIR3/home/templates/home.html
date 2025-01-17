@@ -35,7 +35,11 @@
             <p>Manager menu :</p>
             <!--ADD MANAGER FUNCTIONS-->
             <div>
-                <a href="./manage_matches">Manage Matches</a>
+                <ul>
+                    <li><a href="./manage_matches">Manage Matches</a></li>
+                    <li><a href="./manage_events">Manage Events</a></li>
+                    <li><a href="./manage_accounts">Manage Account</a></li>
+                </ul>
             </div>
         </div>
         {% endif %}
@@ -44,9 +48,35 @@
             <p>You are not authenticated</p>
         </div>
         {% endif %}
-        {% if user_role == 'user' %}
+        {% if user_role == 'player' or user_role == 'admin'%}
+        <div class="player-info">
+            <p>Player menu :</p>
+            <!--ADD PLAYER FUNCTIONS-->
+            <div>
+                <ul>
+                    <li><a href="./manage_team">Manage Team</a></li>
+                    <li><a href="./view_team_history">View Team History</a></li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        {% if user_role == 'spectator' or user_role == 'commentator' or user_role == 'streamer' or user_role == 'admin'%}
         <div class="user-info">
-            <p>WUser menu :</p>
+            <p>User menu :</p>
+            <!--ADD USER FUNCTIONS-->
+            <div>
+                <ul>
+                    <li><a href="./view_tickets">View your tickets</a></li>
+                    {% if user_role == 'spectator' or user_role == 'admin'%}
+                    <li><a href="./buy_ticket">Buy a spectator ticket</a></li>
+                    {% endif %}
+                    {% if user_role == 'commentator' or user_role == 'streamer' or user_role == 'admin'%}
+                    <li><a href="./get_ticket">Get a professional ticket</a></li> <!-- pros get free tickets (their status has been cleared by managers to get their role)-->
+                    {% endif %}
+                    <li><a href="./donate">Donate to an event</a></li>
+                    <li><a href="./view_user_history">View your history</a></li>
+                </ul>
+            </div>
         </div>
         {% endif %}
         {% else %}

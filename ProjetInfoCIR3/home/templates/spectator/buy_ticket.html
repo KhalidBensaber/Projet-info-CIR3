@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy a Ticket</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Buy a Ticket</h1>
+    </header>
+    <main>
+        {% if message %}
+        <div class="message">
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+        {% if user_role == 'streamer' or user_role == 'commentator' %}
+        <div class="info-message">
+            <p>As a {{ user_role }}, you get free tickets for events.</p>
+        </div>
+        {% endif %}
+        <section>
+            <h2>Select an Event</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="event">Event:</label>
+                <select id="event" name="event" required>
+                    <option value="" disabled selected>Select an event</option>
+                    {% for event in events %}
+                    <option value="{{ event.nom }}">{{ event.nom }} - Price: {% if user_role == 'streamer' or user_role == 'commentator' %} 0 {% else %} {{ event.prix }} {% endif %} - Available Spots: {{ event.place_libre }}</option>
+                    {% endfor %}
+                </select><br>
+                <button type="submit">Buy Ticket</button>
+            </form>
+        </section>
+        <section>
+            <h2>Existing Events</h2>
+            <ul>
+                {% for event in events %}
+                <li>{{ event.nom }} - Price: {{ event.prix }} - Available Spots: {{ event.place_libre }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

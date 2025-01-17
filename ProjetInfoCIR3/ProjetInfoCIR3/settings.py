@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-ydfo#((_$&f%15!w0hzs3q54opsad_^_qwo7w-z0=ent6*kjn8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # CUSTOM VARIABLES
 
 LOGIN_URL = '/login/'
@@ -65,6 +64,11 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"   # Directory where collectstatic will place all files
 
+"""
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # Chemin vers le dossier static
+]
+"""
 
 # END OF CUSTOM VARIABLES
 
@@ -82,6 +86,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

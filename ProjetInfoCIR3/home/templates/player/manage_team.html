@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Team</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Manage Team</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Create a New Team</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="team_name">Team Name:</label>
+                <input type="text" id="team_name" name="team_name" required><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                <button type="submit" name="create_team">Create Team</button>
+            </form>
+        </section>
+        <section>
+            <h2>Join an Existing Team</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="team_name">Team Name:</label>
+                <select id="team_name" name="team_name" required>
+                    {% for team in teams %}
+                    <option value="{{ team.nom }}">{{ team.nom }}</option>
+                    {% endfor %}
+                </select><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                {% if message %}
+                <div class="error-message">
+                    <p>{{ message }}</p>
+                </div>
+                {% endif %}
+                <button type="submit" name="join_team">Join Team</button>
+            </form>
+        </section>
+        <section>
+            <h2>Existing Teams</h2>
+            <ul>
+                {% for team in teams %}
+                <li>{{ team.nom }} - Players: {{ team.tab_joueur|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

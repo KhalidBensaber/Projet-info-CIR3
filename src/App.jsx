@@ -8,6 +8,7 @@ import CreateEventPage from './CreateEventPage.jsx'
 import JoinEventPage from './JoinEventPage.jsx'
 import ShowEventPage from './ShowEventPage.jsx'
 import TicketOfficePage from "./TicketOfficePage.jsx";
+import TelemetryDashboard from './TelemetryDashboard.jsx';
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/join-event" element={<JoinEventPage />} />
                     <Route path="/show-event" element={<ShowEventPage />} />
                     <Route path="/ticket-office" element={<TicketOfficePage />} />
+                    
                 </Routes>
             </div>
         </BrowserRouter>

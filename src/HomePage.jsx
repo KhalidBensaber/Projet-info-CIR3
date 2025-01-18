@@ -54,9 +54,9 @@ function HomePage() {
                         <Link to="/sign-up-account" style={{ textDecoration: 'none', marginRight: '10px' }}>
                             <Button variant="contained" style={{ backgroundColor: "#ff0000", color: "#fff" }}>Créer un compte</Button>
                         </Link>
-                        <Link to="/profile" style={{ textDecoration: 'none', marginRight: '10px' }}>
+                        <a href="/home/" style={{ textDecoration: 'none', marginRight: '10px' }}>
                             <Button variant="outlined" style={{ color: "#fff", borderColor: "#ff0000" }}>Profile</Button>
-                        </Link>
+                        </a>
                         <Button variant="text" style={{ color: "#fff" }} onClick={handleLogout}>Se déconnecter</Button>
                     </div>
                 </Toolbar>

@@ -8,6 +8,8 @@ import qrcode
 from io import BytesIO
 from django.http import HttpResponse
 from PIL import Image
+from django.shortcuts import redirect
+
 
 from django.http import HttpResponse
 from django.conf import settings
@@ -22,6 +24,7 @@ def react_app(request):
         with open(index_path, 'r') as file:
             return HttpResponse(file.read(), content_type='text/html')
     return HttpResponse("index.html not found", status=404)
+
 
 
 
@@ -76,7 +79,7 @@ def manage_events(request):
         prix = request.POST['prix']
         if 'edit_event' in request.POST:
             event = next((event for event in Get_Event() if event['nom'] == nom), None)
-            places_libres = int(places_max) - len(event['inscrit'])
+            places_libres = float(places_max) - len(event['inscrit'])
             tab_inscrit = event['inscrit']
             Set_Event(nom, date_debut, date_fin, places_max, places_libres, cash_price, status, prix, tab_inscrit)
         else:
@@ -128,7 +131,7 @@ def donate(request):
         event = next((event for event in Get_Event() if event['nom'] == event_id), None)
         print(event_id, "----------", Get_Event())
         if event:
-            new_cash_price = str(int(event['cash_price']) + amount)
+            new_cash_price = str(float(event['cash_price']) + amount)
             Set_Event_cash_price(event_id, new_cash_price)
         return redirect('donate')
     
@@ -145,14 +148,14 @@ def buy_ticket(request):
         if event:
             if request.user.username in event['inscrit']:
                 message = "You already have a ticket for this event."
-            elif int(event['place_libre']) > 0:
+            elif float(event['place_libre']) > 0:
                 event['inscrit'].append(request.user.username)
-                event['place_libre'] = str(int(event['place_libre']) - 1)
+                event['place_libre'] = str(float(event['place_libre']) - 1)
                 Set_Event_inscrit(event['_id'], event['inscrit'])
                 Set_Event_places_min(event['_id'], event['place_libre'])
                 # Add half of the ticket price to the cash prize if not free
                 if user_role not in ['streamer', 'commentator']:
-                    new_cash_price = str(int(event['cash_price']) + (int(event['prix']) / 2))
+                    new_cash_price = str(float(event['cash_price']) + (float(event['prix']) / 2))
                     Set_Event_cash_price(event_id, new_cash_price)
                 message = "Ticket purchased successfully!"
             else:
@@ -252,7 +255,8 @@ def view_user_history(request):
 def custom_logout(request):
     if request.method == "POST":
         logout(request)
-        return JsonResponse({"success": True, "message": "Déconnexion réussie"})
+        
+        return redirect('/login-account')
     return JsonResponse({"success": False, "message": "Méthode non autorisée"}, status=405)
 
 

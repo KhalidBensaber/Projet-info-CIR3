@@ -132,21 +132,22 @@ function LoginAccountPage() {
                             Connexion réussie !
                         </Alert>
                     )}
-
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        style={{
-                            backgroundColor: "#ff0000",
-                            color: "#fff",
-                            marginBottom: "20px",
-                            fontWeight: "bold",
-                            fontFamily: "Arial Black, Gadget, sans-serif",
-                        }}
-                    >
-                        Se connecter
-                    </Button>
+                    <Link to="/" style={{ textDecoration: "none" }}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            fullWidth
+                            style={{
+                                backgroundColor: "#ff0000",
+                                color: "#fff",
+                                marginBottom: "20px",
+                                fontWeight: "bold",
+                                fontFamily: "Arial Black, Gadget, sans-serif",
+                            }}
+                        >
+                            Se connecter
+                        </Button>
+                    </Link>
 
                     <Link to="/sign-up-account" style={{ textDecoration: "none" }}>
                         <Button

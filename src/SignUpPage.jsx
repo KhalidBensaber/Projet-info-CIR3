@@ -190,20 +190,24 @@ function SignUpPage() {
                         inputProps={{ style: { color: "#fff" } }}
                         InputLabelProps={{ style: { color: "#fff" } }}
                     />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        style={{
-                            backgroundColor: "#ffcc00",
-                            color: "#fff",
-                            marginBottom: "20px",
-                            fontWeight: "bold",
-                            fontFamily: "Arial Black, Gadget, sans-serif",
-                        }}
-                    >
-                        S'inscrire
-                    </Button>
+                    
+                    <Link to="/login-account" style={{ textDecoration: "none" }}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            fullWidth
+                            style={{
+                                backgroundColor: "#ffcc00",
+                                color: "#fff",
+                                marginBottom: "20px",
+                                fontWeight: "bold",
+                                fontFamily: "Arial Black, Gadget, sans-serif",
+                            }}
+                        >
+                            S'inscrire
+                        </Button>
+                    </Link>
+                
                 </form>
                 {error && <Alert severity="error" style={{ marginTop: "20px" }}>{error}</Alert>}
                 {success && <Alert severity="success" style={{ marginTop: "20px" }}>Compte créé avec succès !</Alert>}

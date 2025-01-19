@@ -1,61 +1,65 @@
 import React, { useState } from "react";
 import { Button, Container, Typography, TextField, Box, Alert } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { getCSRFToken } from "@/utils/csrf";
-
 
 function LoginAccountPage() {
     const [formData, setFormData] = useState({ username: "", password: "" });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess(false);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        setSuccess(false);
 
-    const csrfToken = getCSRFToken(); // Récupérez le CSRF Token
+        const csrfToken = getCSRFToken();
 
-    if (!csrfToken) {
-        setError("CSRF Token non trouvé. Veuillez réessayer.");
-        return;
-    }
-
-    try {
-        const response = await fetch("/api/login/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken, // Ajoutez le CSRF Token ici
-            },
-            body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Erreur HTTP :", response.status, errorText);
-            setError("Une erreur est survenue : " + errorText);
+        if (!csrfToken) {
+            setError("CSRF Token non trouvé. Veuillez réessayer.");
             return;
         }
 
-        const data = await response.json();
-        if (data.success) {
-            setSuccess(true);
-            console.log(data.message);
-        } else {
-            setError(data.message);
-        }
-    } catch (error) {
-        console.error("Erreur lors de la requête :", error);
-        setError("Une erreur s'est produite. Veuillez réessayer.");
-    }
-};
+        try {
+            const response = await fetch("/api/login/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken,
+                },
+                body: JSON.stringify(formData),
+            });
 
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Erreur HTTP :", response.status, errorText);
+                setError("Une erreur est survenue : " + errorText);
+                return;
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                setSuccess(true);
+                console.log(data.message);
+
+                // Redirect after a short delay
+                setTimeout(() => {
+                    navigate("/"); // Replace "/home" with your desired route
+                }, 500); // Delay of 2 seconds for the success message
+            } else {
+                setError(data.message);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la requête :", error);
+            setError("Une erreur s'est produite. Veuillez réessayer.");
+        }
+    };
 
     return (
         <Container
@@ -132,7 +136,6 @@ function LoginAccountPage() {
                             Connexion réussie !
                         </Alert>
                     )}
-
                     <Button
                         type="submit"
                         variant="contained"

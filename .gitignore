@@ -27,3 +27,4 @@ dist-ssr
 *.sln
 *.sw?
 ProjetInfoCIR3/db.sqlite3
+db.sqlite3

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Button, Container, Typography, TextField, Box, Alert, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { getCSRFToken } from "@/utils/csrf";
-
 
 function SignUpPage() {
     const [formData, setFormData] = useState({
@@ -12,10 +11,11 @@ function SignUpPage() {
         email: "",
         password1: "",
         password2: "",
-        status: "spectator", // Valeur par défaut
+        status: "spectator", // Default value
     });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,51 +23,55 @@ function SignUpPage() {
     };
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess(false);
+        e.preventDefault();
+        setError("");
+        setSuccess(false);
 
-    const csrfToken = getCSRFToken(); // Récupérez le CSRF Token
+        const csrfToken = getCSRFToken(); // Fetch CSRF token
 
-    if (!csrfToken) {
-        setError("CSRF Token non trouvé. Veuillez réessayer.");
-        return;
-    }
-
-    try {
-        const response = await fetch("/api/register/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken, // Ajoutez le CSRF Token ici
-            },
-            body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Erreur HTTP :", response.status, errorText);
-            setError("Une erreur est survenue : " + errorText);
+        if (!csrfToken) {
+            setError("CSRF Token not found. Please try again.");
             return;
         }
 
-        const data = await response.json();
-        if (data.success) {
-            setSuccess(true);
-            console.log(data.message);
-        } else {
-            setError(
-                data.errors
-                    ? Object.values(data.errors).flat().join(", ")
-                    : data.message
-            );
-        }
-    } catch (error) {
-        console.error("Erreur lors de la requête :", error);
-        setError("Une erreur s'est produite. Veuillez réessayer.");
-    }
-};
+        try {
+            const response = await fetch("/api/register/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken, // Add CSRF token
+                },
+                body: JSON.stringify(formData),
+            });
 
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("HTTP Error:", response.status, errorText);
+                setError("An error occurred: " + errorText);
+                return;
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                setSuccess(true);
+                console.log(data.message);
+
+                // Redirect after a short delay
+                setTimeout(() => {
+                    navigate("/login-account"); // Redirect to /login-account
+                }, 500); // 0.5-second delay
+            } else {
+                setError(
+                    data.errors
+                        ? Object.values(data.errors).flat().join(", ")
+                        : data.message
+                );
+            }
+        } catch (error) {
+            console.error("Request error:", error);
+            setError("An error occurred. Please try again.");
+        }
+    };
 
     return (
         <Container
@@ -190,6 +194,7 @@ function SignUpPage() {
                         inputProps={{ style: { color: "#fff" } }}
                         InputLabelProps={{ style: { color: "#fff" } }}
                     />
+                    
                     <Button
                         type="submit"
                         variant="contained"
@@ -204,6 +209,7 @@ function SignUpPage() {
                     >
                         S'inscrire
                     </Button>
+                
                 </form>
                 {error && <Alert severity="error" style={{ marginTop: "20px" }}>{error}</Alert>}
                 {success && <Alert severity="success" style={{ marginTop: "20px" }}>Compte créé avec succès !</Alert>}

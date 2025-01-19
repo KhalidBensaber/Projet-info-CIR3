@@ -87,9 +87,8 @@
         padding: 10px;
         overflow-wrap: break-word;
       }
-    </style>
-
-    <script type="module" crossorigin src="/static/react/dist/assets/index-fsdAfVZU.js"></script>
+    </style>
+    <script type="module" crossorigin src="/static/react/dist/assets/index-DGIF1KIE.js"></script>
     <link rel="stylesheet" crossorigin href="/static/react/dist/assets/index-n_ryQ3BS.css">
   </head>
   <body style="background-image:url(/static/react/dist/assets/bg_esport-CR0Z68G_.jpg)">
@@ -108,7 +107,7 @@
         <div id="ai-response"></div>
       </div>
     </div>
-    {{ csrf_token }}
+
     <script>
       const toggleButton = document.getElementById("toggle-btn");
       const bubbleContainer = document.getElementById("AI_bubble_container");
@@ -150,13 +149,11 @@
             const data = await response.json();
             aiResponse.textContent = data.response || "Aucune reponse disponible.";
           } else {
-             const errorData = await response.json();
-            aiResponse.textContent = (errorData.details + " : " + errorData.error) || "Erreur lors de la recuperation de la reponse.";
+            aiResponse.textContent = "Erreur lors de la recuperation de la reponse.";
           }
-
         } catch (error) {
           console.error("Erreur reseau :", error);
-          aiResponse.textContent = error || "Erreur reseau. Veuillez reessayer.";
+          aiResponse.textContent = "Erreur reseau. Veuillez reessayer.";
         }
       });
 

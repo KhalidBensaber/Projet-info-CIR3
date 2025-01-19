@@ -19,7 +19,7 @@ function LoginAccountPage() {
         setError("");
         setSuccess(false);
 
-        const csrfToken = getCSRFToken();
+        const csrfToken = await getCSRFToken();
 
         if (!csrfToken) {
             setError("CSRF Token non trouvé. Veuillez réessayer.");

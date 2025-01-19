@@ -77,45 +77,95 @@
       #AI_bubble button:hover {
         background-color: #e6b800;
       }
+
+      #ai-response {
+        margin-top: 10px;
+        font-size: 14px;
+        color: white;
+        background-color: #333;
+        border-radius: 5px;
+        padding: 10px;
+        overflow-wrap: break-word;
+      }
     </style>
+    <script type="module" crossorigin src="/src/main.jsx"></script>
   </head>
-  <body style=background-image:url(./src/assets/bg_esport.jpg)>
+  <body style="background-image:url(./src/assets/bg_esport.jpg)">
 
     <div id="root"></div>
 
     <div id="AI_bubble">
       <div id="AI_bubble_header">
         <h4>AI Assistant</h4>
-        <button id="toggle-btn">▲</button>
+        <button id="toggle-btn">^</button>
       </div>
       <div id="AI_bubble_container">
         <label for="ai-input">Avez-vous une question ?</label>
         <textarea id="ai-input" placeholder="Posez votre question ici..."></textarea>
         <button id="send-btn">Envoyer</button>
+        <div id="ai-response"></div>
       </div>
     </div>
 
-    <script type="module" src="/src/main.jsx"></script>
     <script>
       const toggleButton = document.getElementById("toggle-btn");
       const bubbleContainer = document.getElementById("AI_bubble_container");
+      const sendButton = document.getElementById("send-btn");
+      const aiInput = document.getElementById("ai-input");
+      const aiResponse = document.getElementById("ai-response");
 
       bubbleContainer.style.display = "none";
 
+      // Gère l'ouverture et la fermeture de la bulle AI
       toggleButton.addEventListener("click", () => {
         const isHidden = bubbleContainer.style.display === "none";
         bubbleContainer.style.display = isHidden ? "flex" : "none";
-        toggleButton.textContent = isHidden ? "▼" : "▲" ;
+        toggleButton.textContent = isHidden ? "v" : "^";
       });
 
-      document.getElementById("send-btn").addEventListener("click", () => {
-        const userInput = document.getElementById("ai-input").value.trim();
-        if (userInput) {
-          alert("Réponse de l'IA : Je réfléchis à votre question...");
-        } else {
-          alert("Veuillez entrer une question.");
+      // Envoi de la requête à l'API
+      sendButton.addEventListener("click", async () => {
+        const userInput = aiInput.value.trim();
+
+        if (!userInput) {
+          aiResponse.textContent = "Veuillez entrer une question.";
+          return;
+        }
+
+        aiResponse.textContent = "Réponse en cours...";
+
+        try {
+          const response = await fetch("/chatbot/chat-with-ai/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCSRFToken(), // Ajoutez cette ligne si CSRF est nécessaire
+            },
+            body: JSON.stringify({ question: userInput }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            aiResponse.textContent = data.response || "Aucune réponse disponible.";
+          } else {
+            aiResponse.textContent = "Erreur lors de la récupération de la réponse.";
+          }
+        } catch (error) {
+          console.error("Erreur réseau :", error);
+          aiResponse.textContent = "Erreur réseau. Veuillez réessayer.";
         }
       });
+
+      // Fonction pour récupérer le CSRF Token si nécessaire
+      function getCSRFToken() {
+        const cookies = document.cookie.split("; ");
+        for (let cookie of cookies) {
+          if (cookie.startsWith("csrftoken=")) {
+            return cookie.split("=")[1];
+          }
+        }
+        return null;
+      }
     </script>
   </body>
 </html>

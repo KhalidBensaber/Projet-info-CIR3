@@ -25,7 +25,7 @@ APIKEY2 = "sk-proj-tJ3Sbco6hVZQY8YGXy3gxcpRAIQGbq1DieYTtqSkfNb1ZVgvdFCONYBJuTmJi
 SECRET_KEY = 'django-insecure-ydfo#((_$&f%15!w0hzs3q54opsad_^_qwo7w-z0=ent6*kjn8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # CUSTOM VARIABLES

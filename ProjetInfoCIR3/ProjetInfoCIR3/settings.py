@@ -16,11 +16,10 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-DEEP_AI_API_KEY = "0996e48b-cbbb-4403-9ce6-5be3337ebda7"
-OPENAI_API_KEY = "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"
-APIKEY2 = "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"
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ydfo#((_$&f%15!w0hzs3q54opsad_^_qwo7w-z0=ent6*kjn8'
 

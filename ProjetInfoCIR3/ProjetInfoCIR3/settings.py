@@ -124,6 +124,9 @@ CSRF_TRUSTED_ORIGINS = [
     #'http://<NOM_DE_DOMAINE>',                # Si un nom de domaine est utilisé
 ]
 
+CSRF_COOKIE_SECURE = False  # Mettez sur True si vous utilisez HTTPS
+CSRF_COOKIE_HTTPONLY = False  # Assurez-vous qu'il peut être lu par JavaScript
+CSRF_COOKIE_SAMESITE = 'Lax'  # Ou 'Strict' selon vos besoins
 
 ROOT_URLCONF = 'ProjetInfoCIR3.urls'
 

@@ -94,7 +94,16 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'testAPI',
     'ChatBotAI',
+    'corsheaders',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    #'http://<IP_ADRESSE_DE_L_AUTRE_PC>:8000',  # Remplacez avec l'adresse IP
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -105,7 +114,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'telemetry.middleware.TelemetryMiddleware',  # Add this line to include the custom middleware
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1',
+    'http://localhost',
+    #'http://<IP_ADRESSE_DE_L_AUTRE_PC>:8000',  # Remplacez avec l'adresse IP de l'autre PC
+    #'http://<NOM_DE_DOMAINE>',                # Si un nom de domaine est utilisé
+]
+
 
 ROOT_URLCONF = 'ProjetInfoCIR3.urls'
 

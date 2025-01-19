@@ -30,7 +30,7 @@ function HomePage() {
 
     // Gère la déconnexion
     const handleLogout = async () => {
-        const csrfToken = getCSRFToken();
+        const csrfToken = await getCSRFToken();
 
         if (!csrfToken) {
             console.error("CSRF Token non trouvé !");

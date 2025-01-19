@@ -15,15 +15,15 @@ def decrypt_api_key(encrypted_key: str) -> str:
 def chat_with_ai(request):
     if request.method == "POST":
         try:
-            # Récupérer la question de l'utilisateur depuis le corps de la requête
+            # Recuperer la question de l'utilisateur depuis le corps de la requête
             data = json.loads(request.body)
             question = data.get("question", "")
 
-            # Vérifier si une question a été fournie
+            # Verifier si une question a ete fournie
             if not question:
                 return JsonResponse({"error": "Aucune question fournie."}, status=400)
 
-            # Configurer la clé API OpenAI
+            # Configurer la cle API OpenAI
             client = OpenAI(
                 api_key=decrypt_api_key(settings.APIKEY3))
 
@@ -36,17 +36,17 @@ def chat_with_ai(request):
             ]
             )
 
-            # Extraire la réponse de l'IA
+            # Extraire la reponse de l'IA
             ai_response = response.choices[0].message.content.strip()
             return JsonResponse({"response": ai_response})
 
         except openai.OpenAIError as e:
-            # Gérer les erreurs liées à l'API OpenAI
+            # Gerer les erreurs liees à l'API OpenAI
             return JsonResponse({"error": "Erreur avec l'API OpenAI.", "details": str(e)}, status=500)
 
         except json.JSONDecodeError:
-            # Gérer les erreurs de décodage JSON
+            # Gerer les erreurs de decodage JSON
             return JsonResponse({"error": "Requête JSON invalide."}, status=400)
 
     else:
-        return JsonResponse({"error": "Méthode non autorisée."}, status=405)
+        return JsonResponse({"error": "Methode non autorisee."}, status=405)

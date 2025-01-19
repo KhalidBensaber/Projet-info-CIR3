@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 from django.http import JsonResponse
 import json
+from django.middleware.csrf import get_token
 
 @csrf_protect
 def login(request):
@@ -39,3 +40,10 @@ def check_auth(request):
     if request.user.is_authenticated:
         return JsonResponse({'authenticated': True, 'username': request.user.username})
     return JsonResponse({'authenticated': False})
+
+
+
+
+def get_csrf_token(request):
+    token = get_token(request)
+    return JsonResponse({'csrfToken': token})

@@ -27,7 +27,7 @@ function SignUpPage() {
         setError("");
         setSuccess(false);
 
-        const csrfToken = getCSRFToken(); // Fetch CSRF token
+        const csrfToken = await getCSRFToken(); // Fetch CSRF token
 
         if (!csrfToken) {
             setError("CSRF Token not found. Please try again.");

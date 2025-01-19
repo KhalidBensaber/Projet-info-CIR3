@@ -1,3 +1,11 @@
+#Dependencies
+Please to be run the django server use the 
+
+
+#Django
+To run the server in local test mode, please use the following command from .../Projet-INFO-CIR3/Projet-INFO-CIR3/ : python manage.py runserver
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

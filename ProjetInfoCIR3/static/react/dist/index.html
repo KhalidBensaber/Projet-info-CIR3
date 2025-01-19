@@ -87,7 +87,8 @@
         padding: 10px;
         overflow-wrap: break-word;
       }
-    </style>
+    </style>
+
     <script type="module" crossorigin src="/static/react/dist/assets/index-fsdAfVZU.js"></script>
     <link rel="stylesheet" crossorigin href="/static/react/dist/assets/index-n_ryQ3BS.css">
   </head>
@@ -149,11 +150,13 @@
             const data = await response.json();
             aiResponse.textContent = data.response || "Aucune réponse disponible.";
           } else {
-            aiResponse.textContent = "Erreur lors de la récupération de la réponse.";
+             const errorData = await response.json();
+            aiResponse.textContent = (errorData.details + " : " + errorData.error) || "Erreur lors de la récupération de la réponse.";
           }
+
         } catch (error) {
           console.error("Erreur réseau :", error);
-          aiResponse.textContent = "Erreur réseau. Veuillez réessayer.";
+          aiResponse.textContent = error || "Erreur réseau. Veuillez réessayer.";
         }
       });
 

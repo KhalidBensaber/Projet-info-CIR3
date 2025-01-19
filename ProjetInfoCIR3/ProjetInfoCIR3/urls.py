@@ -21,6 +21,8 @@ from login import views as login_views  # Import the views from the login app
 from django.contrib.auth import views as auth_views
 from home import views as home_views
 from home.views import react_app  # Importez votre vue React
+from django.conf import settings
+from django.conf.urls.static import static
 
 """
 urlpatterns = [
@@ -55,5 +57,8 @@ urlpatterns = [
     re_path(r'^login/$', RedirectView.as_view(url='/login-account/')),
 
     path('home/', include('home.urls')),
+    
 
     ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

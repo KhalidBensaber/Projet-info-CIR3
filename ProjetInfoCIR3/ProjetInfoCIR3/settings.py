@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import hashlib
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,11 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEEP_AI_API_KEY = "0996e48b-cbbb-4403-9ce6-5be3337ebda7"
 OPENAI_API_KEY = "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"
 APIKEY2 = "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"
+APIKEY3 = "c2stcHJvai01T20yc1hoUV9TV3U2MkZWVURrU2k3QnZBZE9Uakg3bWc2U0RScjRuaGw4cVJFWVM4aFhRVHk1UGNjeDZVNnBqR2gwUDM3UkE3WlQzQmxia0ZKQ3F0OS1xYTN4WENaaHBxMXNPRmhycDBEQ2NfcUFLMzdxYWlsRC1fdVY1Z2psWXV6dThfLTloQVFVMVd1OTBhSjJ4YnFNVl9ma0E="
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ydfo#((_$&f%15!w0hzs3q54opsad_^_qwo7w-z0=ent6*kjn8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # CUSTOM VARIABLES
@@ -62,7 +64,7 @@ LOGGING = {
     },
 }
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"   # Directory where collectstatic will place all files
 

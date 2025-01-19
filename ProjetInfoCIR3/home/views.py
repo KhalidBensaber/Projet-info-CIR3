@@ -19,7 +19,7 @@ def react_app(request):
     # Chemin complet vers le fichier index.html
     index_path = os.path.join(settings.BASE_DIR, 'static/react/dist/index.html')
     
-    # Vérifiez si le fichier existe
+    # Verifiez si le fichier existe
     if os.path.exists(index_path):
         with open(index_path, 'r') as file:
             return HttpResponse(file.read(), content_type='text/html')
@@ -257,7 +257,7 @@ def custom_logout(request):
         logout(request)
         
         return redirect('/login-account')
-    return JsonResponse({"success": False, "message": "Méthode non autorisée"}, status=405)
+    return JsonResponse({"success": False, "message": "Methode non autorisee"}, status=405)
 
 
 def role_management(request):

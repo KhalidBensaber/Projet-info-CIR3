@@ -134,33 +134,33 @@
           return;
         }
 
-        aiResponse.textContent = "Réponse en cours...";
+        aiResponse.textContent = "Reponse en cours...";
 
         try {
           const response = await fetch("/chatbot/chat-with-ai/", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "X-CSRFToken": getCSRFToken(), // Ajoutez cette ligne si CSRF est nécessaire
+              "X-CSRFToken": getCSRFToken(), // Ajoutez cette ligne si CSRF est necessaire
             },
             body: JSON.stringify({ question: userInput }),
           });
 
           if (response.ok) {
             const data = await response.json();
-            aiResponse.textContent = data.response || "Aucune réponse disponible.";
+            aiResponse.textContent = data.response || "Aucune reponse disponible.";
           } else {
              const errorData = await response.json();
-            aiResponse.textContent = (errorData.details + " : " + errorData.error) || "Erreur lors de la récupération de la réponse.";
+            aiResponse.textContent = (errorData.details + " : " + errorData.error) || "Erreur lors de la recuperation de la reponse.";
           }
 
         } catch (error) {
-          console.error("Erreur réseau :", error);
-          aiResponse.textContent = error || "Erreur réseau. Veuillez réessayer.";
+          console.error("Erreur reseau :", error);
+          aiResponse.textContent = error || "Erreur reseau. Veuillez reessayer.";
         }
       });
 
-      // Fonction pour récupérer le CSRF Token si nécessaire
+      // Fonction pour recuperer le CSRF Token si necessaire
       function getCSRFToken() {
         const cookies = document.cookie.split("; ");
         for (let cookie of cookies) {

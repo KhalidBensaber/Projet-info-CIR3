@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Tickets</title>
     <link rel="stylesheet" href="{% static 'css/view_tickets.css' %}">
-
 </head>
 <body>
     <header>
@@ -28,6 +27,12 @@
                 <button type="submit">View QR Code</button>
             </form>
         </section>
+        {% if qr_code_base64 %}
+        <section id="qr-code-section">
+            <h2>Your QR Code</h2>
+            <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="QR Code">
+        </section>
+        {% endif %}
     </main>
 </body>
 </html>

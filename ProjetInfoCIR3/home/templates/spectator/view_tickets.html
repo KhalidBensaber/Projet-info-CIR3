@@ -1,14 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Tickets</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{% static 'css/view_tickets.css' %}">
+
 </head>
 <body>
     <header>
         <h1>View Tickets</h1>
+        <a href="/home"><button>->Back</button></a>
     </header>
     <main>
         <section>

@@ -10,7 +10,7 @@
 </head>
 <body>
     <h1>Manage Accounts</h1>
-    <a href="/home"><button>->Back</button></a>
+    <a href="/home"><button>Back</button></a>
     <form method="post" action="{% url 'manage_accounts' %}">
         {% csrf_token %}
         <label for="username">Username:</label>

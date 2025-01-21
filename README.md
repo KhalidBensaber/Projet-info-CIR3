@@ -22,3 +22,5 @@ Currently, two official plugins are available:
 - Streamers and commentators ticekts are free
 - Roles other than spectator and player must be set by a maanger. Someone creating an account in that regard must take the third role
 - The admin login is: user: admin ; pass: admin
+- Note : the react interface on /. is not fully connected to the db, it was supposed to be ran on server, but all the /home is connected to the db
+  

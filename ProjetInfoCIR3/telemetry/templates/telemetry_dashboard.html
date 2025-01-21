@@ -1,36 +1,69 @@
-<h1>Telemetry Dashboard</h1>
-<p>Total Requests: {{ total_requests }}</p>
-<p>Average Response Time: {{ avg_response_time }} seconds</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telemetry Dashboard</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{% static 'css/telemetry_dashboard.css' %}">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Box for Header and Summary -->
+        <div class="box">
+            <!-- Back Button -->
+            <a href="/home/">
+                <button class="back-button">Back</button>
+            </a>
 
-<h2>Status Codes</h2>
-<ul>
-    {% for status in status_counts %}
-    <li>{{ status.status_code }}: {{ status.count }} requests</li>
-    {% endfor %}
-</ul>
+            <!-- Header -->
+            <h1>Telemetry Dashboard</h1>
 
-<h2>Recent Logs</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Timestamp</th>
-            <th>User</th>
-            <th>Path</th>
-            <th>Status Code</th>
-            <th>Response Time</th>
-            <th>IP Address</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for log in logs %}
-        <tr>
-            <td>{{ log.timestamp }}</td>
-            <td>{{ log.user.username|default:"Anonymous" }}</td>
-            <td>{{ log.path }}</td>
-            <td>{{ log.status_code }}</td>
-            <td>{{ log.response_time }}</td>
-            <td>{{ log.ip_address }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            <!-- Total Requests and Response Time -->
+            <p>Total Requests: {{ total_requests }}</p>
+            <p>Average Response Time: {{ avg_response_time }} seconds</p>
+        </div>
+
+        <!-- Status Codes -->
+        <div class="status-box">
+            <h2>Status Codes</h2>
+            <ul>
+                {% for status in status_counts %}
+                <li>{{ status.status_code }}: {{ status.count }} requests</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Recent Logs Table -->
+        <div class="table-box">
+            <h2>Recent Logs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Path</th>
+                        <th>Status Code</th>
+                        <th>Response Time</th>
+                        <th>IP Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.timestamp }}</td>
+                        <td>{{ log.user.username|default:"Anonymous" }}</td>
+                        <td>{{ log.path }}</td>
+                        <td>{{ log.status_code }}</td>
+                        <td>{{ log.response_time }}</td>
+                        <td>{{ log.ip_address }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

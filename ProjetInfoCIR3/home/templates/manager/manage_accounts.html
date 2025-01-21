@@ -1,12 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/manage_accounts.css' %}">
+
     <title>Manage Accounts</title>
 </head>
 <body>
     <h1>Manage Accounts</h1>
+    <a href="/home"><button>->Back</button></a>
     <form method="post" action="{% url 'manage_accounts' %}">
         {% csrf_token %}
         <label for="username">Username:</label>

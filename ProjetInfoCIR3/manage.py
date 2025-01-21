@@ -2,9 +2,24 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import subprocess
 
+def install_dependencies():
+    try:
+        # Check and install dependencies using the Python script
+        print("Checking and installing dependencies...")
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--user', '-r', 'requirements.txt'])
+        print("All dependencies are installed.")
+    except subprocess.CalledProcessError as e:
+        print("Failed to install dependencies. Error:", e)
+        sys.exit(1)
 
 def main():
+    
+    # Check and install dependencies before starting the server
+    if os.path.exists("requirements.txt"):
+        install_dependencies()
+    
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ProjetInfoCIR3.settings')
     try:

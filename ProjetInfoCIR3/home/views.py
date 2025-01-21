@@ -31,6 +31,7 @@ def react_app(request):
 @login_required
 def home(request):
     user_name = request.user.username  # Get the current user's name
+    email = request.user.email  # Get the current user's email
     user_list = Get_Utilisateur()
     current_user = next((user for user in user_list if user['pseudo'] == user_name), None)
     user_role = current_user['status'] if current_user else None
@@ -165,29 +166,34 @@ def buy_ticket(request):
     events = Get_Event()
     return render(request, 'spectator/buy_ticket.html', {'events': events, 'message': message, 'user_role': user_role})
 
+import base64
+
 @login_required
 def view_tickets(request):
     user_pseudonym = request.user.username
     user_firstname = next((user['prenom'] for user in Get_Utilisateur() if user['pseudo'] == user_pseudonym), None)
     user_lastname = next((user['nom'] for user in Get_Utilisateur() if user['pseudo'] == user_pseudonym), None)
     events = [event for event in Get_Event() if user_pseudonym in event['inscrit']]
+    qr_code_base64 = None
+
     if request.method == 'POST':
         event_name = request.POST['event']
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_M,
-            box_size=20,
+            box_size=10,
             border=4,
         )
-        qr.add_data("event: "+event_name+", name: "+user_firstname+" \""+user_pseudonym+"\" "+user_lastname)
+        qr.add_data(f"event: {event_name}, name: {user_firstname} \"{user_pseudonym}\" {user_lastname}")
         qr.make(fit=True)
         img = qr.make_image(fill='black', back_color='white')
+
         buffer = BytesIO()
         img.save(buffer, format="PNG")
         buffer.seek(0)
-        return HttpResponse(buffer, content_type="image/png")
-    
-    return render(request, 'spectator/view_tickets.html', {'events': events})
+        qr_code_base64 = base64.b64encode(buffer.getvalue()).decode()
+
+    return render(request, 'spectator/view_tickets.html', {'events': events, 'qr_code_base64': qr_code_base64})
 
 @login_required
 def view_team_history(request):

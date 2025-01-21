@@ -1,30 +1,44 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Events</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="{% static 'css/manage_events.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Manage Events</h1>
-    </header>
-    <main>
-        <section>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header Section -->
+        <div class="box">
+            <a href="/home/">
+                <button class="back-button">Back</button>
+            </a>
+            <h1>Manage Events</h1>
+        </div>
+
+        <!-- Create Event Form -->
+        <div class="box">
             <h2>Create a New Event</h2>
             <form method="post">
                 {% csrf_token %}
                 <label for="nom">Event Name:</label>
                 <input type="text" id="nom" name="nom" required><br>
+
                 <label for="date_debut">Start Date and Time:</label>
                 <input type="datetime-local" id="date_debut" name="date_debut" required><br>
+
                 <label for="date_fin">End Date and Time:</label>
                 <input type="datetime-local" id="date_fin" name="date_fin" required><br>
+
                 <label for="places_max">Maximum Places:</label>
                 <input type="number" id="places_max" name="places_max" required><br>
+
                 <label for="cash_price">Cash Prize:</label>
                 <input type="number" id="cash_price" name="cash_price" required><br>
+
                 <label for="status">Status:</label>
                 <select id="status" name="status" required>
                     <option value="" disabled selected>Select a status</option>
@@ -32,12 +46,16 @@
                     <option value="ongoing">Ongoing</option>
                     <option value="finished">Finished</option>
                 </select><br>
+
                 <label for="prix">Cost:</label>
                 <input type="number" id="prix" name="prix"><br>
+
                 <button type="submit">Create Event</button>
             </form>
-        </section>
-        <section>
+        </div>
+
+        <!-- Existing Events Section -->
+        <div class="box">
             <h2>Existing Events</h2>
             <ul>
                 {% for event in events %}
@@ -46,16 +64,22 @@
                     <form method="post" style="display:inline;">
                         {% csrf_token %}
                         <input type="hidden" name="event_id" value="{{ event.inserted_id }}">
+
                         <label for="nom">Event Name:</label>
                         <input type="text" id="nom" name="nom" value="{{ event.nom }}" required>
+
                         <label for="date_debut">Start Date and Time:</label>
                         <input type="datetime-local" id="date_debut" name="date_debut" value="{{ event.date_debut }}" required>
+
                         <label for="date_fin">End Date and Time:</label>
                         <input type="datetime-local" id="date_fin" name="date_fin" value="{{ event.date_fin }}" required>
+
                         <label for="places_max">Maximum Places:</label>
                         <input type="number" id="places_max" name="places_max" value="{{ event.places_max }}" required>
+
                         <label for="cash_price">Cash Prize:</label>
                         <input type="number" id="cash_price" name="cash_price" value="{{ event.cash_price }}" required>
+
                         <label for="status">Status:</label>
                         <select id="status" name="status" required>
                             <option value="" disabled selected>Select a status</option>
@@ -63,14 +87,16 @@
                             <option value="ongoing" {% if event.status == 'ongoing' %}selected{% endif %}>Ongoing</option>
                             <option value="finished" {% if event.status == 'finished' %}selected{% endif %}>Finished</option>
                         </select>
+
                         <label for="prix">Cost:</label>
                         <input type="number" id="prix" name="prix" value="{{ event.prix }}">
+
                         <button type="submit" name="edit_event">Edit Event</button>
                     </form>
                 </li>
                 {% endfor %}
             </ul>
-        </section>
-    </main>
+        </div>
+    </div>
 </body>
 </html>

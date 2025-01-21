@@ -21,3 +21,4 @@ Currently, two official plugins are available:
 - When the user buys a ticket, half its cost is given to the event's cashprize
 - Streamers and commentators ticekts are free
 - Roles other than spectator and player must be set by a maanger. Someone creating an account in that regard must take the third role
+- The admin login is: user: admin ; pass: admin

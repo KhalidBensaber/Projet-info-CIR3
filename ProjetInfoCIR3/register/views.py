@@ -14,10 +14,13 @@ def register(request):
                 'username': data.get('username'),
                 'password1': data.get('password1'),
                 'password2': data.get('password2'),
+                'email': data.get('email'),
             })
             print("Validation du formulaire...")  # Log avant validation
             if form.is_valid():
-                user = form.save()
+                user = form.save(commit=False)
+                user.email = data.get('email')  # Set the email explicitly
+                user.save()
                 # Sauvegarde dans MongoDB
                 Add_utilisateur(
                     nom=data.get('first_name'),

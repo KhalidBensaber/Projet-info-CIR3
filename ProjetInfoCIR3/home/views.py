@@ -31,6 +31,7 @@ def react_app(request):
 @login_required
 def home(request):
     user_name = request.user.username  # Get the current user's name
+    email = request.user.email  # Get the current user's email
     user_list = Get_Utilisateur()
     current_user = next((user for user in user_list if user['pseudo'] == user_name), None)
     user_role = current_user['status'] if current_user else None
